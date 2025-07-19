@@ -1,6 +1,10 @@
 # سینمایی
 
 - \+ 1404 04 28
+- [ ] [Crash 1996 David Cronenberg]()
+- [ ] [The Fly 1986 David Cronenberg]()
+- [ ] [Videodrome 1983 David Cronenberg]()
+- [ ] [Forget Me Not 2015 Kei Horie]()
 - [ ] [One-Tenth of a Millimeter Apart 2021 Wong Kar-wai]()
 - [ ] [2046 2004 Wong Kar-wai]()
 - [ ] [In the Mood for Love – Day One 2021 Wong Kar-wai]()
