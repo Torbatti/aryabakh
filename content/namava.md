@@ -1,0 +1,17 @@
+# سینمایی
+
+- \+ 1404 04 28
+- [ ] [One-Tenth of a Millimeter Apart 2021 Wong Kar-wai]()
+- [ ] [2046 2004 Wong Kar-wai]()
+- [ ] [In the Mood for Love – Day One 2021 Wong Kar-wai]()
+- [ ] [@ in the mood for love 2000 Wong Kar-wai]()
+- [ ] [In the Mood for Love 2000 Wong Kar-wai]()
+- [x] [wkw/tk/1996@7’55’’hk.net 1996 Wong Kar-wai]()
+- [ ] [Fallen Angels 1995 Wong Kar-wai]()
+- [ ] [Chungking Express 1994 Wong Kar-wai]()
+- [ ] [Ashes of Time 1994 Wong Kar-wai]()
+- [ ] [Postman Blues 1997]()
+- [ ] [Nobody Knows 2004]()
+- [ ] [Wicked City 1992]()
+- [ ] [Tokyo.sora 2002]()
+- [ ] [Monster 2023 Hirokazu Kore-eda]()
