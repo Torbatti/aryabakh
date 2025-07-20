@@ -1,12 +1,15 @@
 
 - Through the Fire and the Flames - Jon Gjengset | EuroRust 2024 
-- "The ZFS filesystem" - Philip Paeps (LCA 2020) 
+- ~ "The ZFS filesystem" - Philip Paeps (LCA 2020) 
 - Distributed Data Show Episode 44: Thread Per Core with Jake Luciani 
-- “What is Success?” by Evan Czaplicki 
-- Elm Europe 2017 - Evan Czaplicki - The life of a file 
+- ~ “What is Success?” by Evan Czaplicki 
+- ~ Elm Europe 2017 - Evan Czaplicki - The life of a file 
 - John Ousterhout and Robert "Uncle Bob" Martin Discuss Their Software Philosophies 
-Vanilla Web: You Don't Need that Library • Maximiliano Firtman • GOTO 2024 
-Build software that lasts! | Bert Hubert 
+- Vanilla Web: You Don't Need that Library • Maximiliano Firtman • GOTO 2024 
+- Build software that lasts! | Bert Hubert 
+- "Simple Made Easy" - Rich Hickey (2011) 
+- ~ Memory Safety: Rust vs. C - Robert Seacord - NDC TechTown 2024 
+- ~ Clr: proof of concept compile-time safety for Zig 
 
 ### HARDENING
 - Techniques learned from five years finding the way for Rust in Python - David Hewitt 
@@ -16,7 +19,7 @@ Build software that lasts! | Bert Hubert
 - Bruno Prieto - Making accessible web apps with Rails and Hotwire - Rails World 2024 
 
 ### AI
-- Keynote: AI without the BS, for humans - Scott Hanselman - NDC London 2025 
+- ~ Keynote: AI without the BS, for humans - Scott Hanselman - NDC London 2025 
 - ~ Andrej Karpathy: Software Is Changing (Again) 
 
 ### DOD
