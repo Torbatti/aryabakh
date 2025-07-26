@@ -1,4 +1,6 @@
-
+- [ ] What's a Memory Allocator Anyway? - Benjamin Feng 
+- [ ] Solving Common Pointer Conundrums - Loris Cro 
+- [ ] ~ "Papers I Have Loved" by Casey Muratori 
 - [ ] ~ gingerBill – Tools of the Trade – BSC 2025 
 - [ ] ~ Keynote: Safety and Security: The Future of C and C++ - Robert Seacord. - NDC TechTown 2023
 - [ ] Through the Fire and the Flames - Jon Gjengset | EuroRust 2024 
@@ -12,6 +14,12 @@
 - [ ] "Simple Made Easy" - Rich Hickey (2011) 
 - [ ] ~ Memory Safety: Rust vs. C - Robert Seacord - NDC TechTown 2024 
 - [ ] ~ Clr: proof of concept compile-time safety for Zig 
+- [ ] ~ Failing to Fail: The Spiderweb Software Way 
+
+### I/O / Concurrency / Parallization
+- [ ] Zig's I/O and Concurrency Story - King Protty - Software You Can Love 2022 
+- [ ] Build-A-Barging Lock - kprotty 
+- [ ] \[LiveCoding\] Implementing WaitGroup in Zig with kprotty 
 
 ### HARDENING
 - [ ] Techniques learned from five years finding the way for Rust in Python - David Hewitt 
@@ -52,5 +60,6 @@
 ### Viewstamped Replication
 - [ ] Bruno Bonacci on Viewstamped Replication @PWL London 
 - [ ] ~ Zig SHOWTIME #28: Viewstamped Replication Made Famous 
-
+- [ ] Viewstamped Replication Made Famous - Joran Greef 
+- [ ] Revisiting Viewstamped Replication with Brian Oki and James Cowling 
 
