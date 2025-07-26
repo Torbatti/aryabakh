@@ -1,7 +1,6 @@
 - [ ] What's a Memory Allocator Anyway? - Benjamin Feng 
 - [ ] Solving Common Pointer Conundrums - Loris Cro 
 - [ ] ~ "Papers I Have Loved" by Casey Muratori 
-- [ ] ~ gingerBill – Tools of the Trade – BSC 2025 
 - [ ] ~ Keynote: Safety and Security: The Future of C and C++ - Robert Seacord. - NDC TechTown 2023
 - [ ] Through the Fire and the Flames - Jon Gjengset | EuroRust 2024 
 - [ ] ~ "The ZFS filesystem" - Philip Paeps (LCA 2020) 
@@ -15,6 +14,16 @@
 - [ ] ~ Memory Safety: Rust vs. C - Robert Seacord - NDC TechTown 2024 
 - [ ] ~ Clr: proof of concept compile-time safety for Zig 
 - [ ] ~ Failing to Fail: The Spiderweb Software Way 
+
+## Better Software Conference
+- [ ] ~ Ted Bendixson – Most of your projects are stupid. Please make some actual games. – BSC 2025 
+- [ ] ~ Dennis Gustafsson – Parallelizing the physics solver – BSC 2025 
+- [ ] ~ Vjekoslav Krajačić – File Pilot: Inside the Engine – BSC 2025 
+- [ ] ~ Eskil Steenberg – You should finish your software – BSC 2025 
+- [ ] ~ Ryan Fleury – Cracking the Code: Realtime Debugger Visualization Architecture – BSC 2025 
+- [ ] ~ Casey Muratori – The Big OOPs: Anatomy of a Thirty-five-year Mistake – BSC 2025 
+- [ ] ~ gingerBill – Tools of the Trade – BSC 2025 
+- [ ] Wassimulator – Programming Vehicles in Games – BSC 2025 
 
 ### I/O / Concurrency / Parallization
 - [ ] Zig's I/O and Concurrency Story - King Protty - Software You Can Love 2022 
@@ -46,7 +55,6 @@
 - [ ] ~ Memory Safety: Rust vs. C - Robert Seacord - NDC TechTown 2024 
 
 ### OOP
-- [ ] ~ Casey Muratori – The Big OOPs: Anatomy of a Thirty-five-year Mistake – BSC 2025 
 
 ### TESTING
 - [ ] Supercharge your Tests with Snapshot Testing - Giacomo Cavalieri | Code BEAM Europe 2024 
@@ -55,7 +63,6 @@
 - [ ] Jon Gjengset - Towards Impeccable Rust 
 
 ### THREAD POOL
-- [ ] ~ Dennis Gustafsson – Parallelizing the physics solver – BSC 2025 
 
 ### Viewstamped Replication
 - [ ] Bruno Bonacci on Viewstamped Replication @PWL London 
