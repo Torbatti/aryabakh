@@ -19,9 +19,12 @@
 
 # runtime
 - bunjs vs nodejs
-- 
+
 # testing
 - bun test
+
+# debugging
+# assertion
 
 # http client/server
 - bun builtin

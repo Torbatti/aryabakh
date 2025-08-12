@@ -37,5 +37,8 @@
 - go with chi router
 - sqlite
 
+# assertion
+- assertion are considered bad in go but i would rather crash and burn rather burning and not crashing
+
 # testing interfaces
 # signal handling using go routine at start up

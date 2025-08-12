@@ -75,6 +75,8 @@ typedef int32_t rune;  // unicode codepoint
 - i have no idea how you can do this in c
 - i myself use zig test runner and call c functions
 
+# assertion
+
 # Learn C
 https://beej.us/guide/bgc/
 https://beej.us/guide/bgclr/
