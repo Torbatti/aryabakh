@@ -1,3 +1,21 @@
+- [ ] ~ Jonathan Blow about 'Deep Work' (GDC 2014) 
+- [ ]  "The Early Days of id Software: Programming Principles" by John Romero (Strange Loop 2022) 
+- [ ]  Odin creator Ginger Bill on his programming language and state of software! -> making your language section
+- [ ]  Hello Systems by Loris Cro 
+- [ ]  Ryan Fleury & Ginger Bill | C language talk 
+- [ ]  How to Get into the Games Industry 
+- [ ]  Legendary Software Rendering Era | Sean Barrett 
+- [ ] HandmadeCon 2016 - Compression 
+- [ ]  Optimizing Gameplay Code - Jonathan Blow
+- [ ] Everyone is doing memory management wrong. feat. Ryan Fleury | S2 E02 
+- [ ] ~ How I program C . - Eskil Steenberg
+- [ ] ~ Architecting LARGE software projects. - Eskil Steenberg
+- [ ] ~ Why You Should Learn To Program The Hard Way 
+- [ ] How to prototype games as a programmer with no art skills - Theodore Bendixson
+- [ ] ~ Techniques for dealing with lack of motivation, malaise, depression 
+- [ ]  Jonathan Blow: Design Reboot 
+- [ ]  Reboot Develop 2017 - Jonathan Blow, Thekla Inc. / Making Game Programming Less Terrible 
+- [ ] PRACTICE 2014 - Jonathan Blow 
 - [ ] What's a Memory Allocator Anyway? - Benjamin Feng 
 - [ ] Solving Common Pointer Conundrums - Loris Cro 
 - [ ] ~ "Papers I Have Loved" by Casey Muratori 
@@ -25,6 +43,9 @@
 - [ ] ~ gingerBill – Tools of the Trade – BSC 2025 
 - [ ] Wassimulator – Programming Vehicles in Games – BSC 2025 
 
+## Wookash Podcast
+- [ ] ~ Billy Basso on code architecture of Animal Well! 
+
 ### I/O / Concurrency / Parallization
 - [ ] Zig's I/O and Concurrency Story - King Protty - Software You Can Love 2022 
 - [ ] Build-A-Barging Lock - kprotty 
@@ -48,7 +69,6 @@
 
 ### GAME 
 - [ ] Solving the Right Problems for Engine Programmers - Mike Acton‌ (TGC 2017)
-- [ ] Billy Basso on code architecture of Animal Well! 
 
 ### MEMORY
 - [ ] What's a Memory Allocator Anyway? - Benjamin Feng
