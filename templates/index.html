@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  تک نویسه ها
+</h1>
+<ul>
+  {% for page in section.pages %}
+    <li class="page-info">
+      <p class="date">{{ page.date }}</p>
+      <p><a href="{{ page.permalink | safe }}">{{ page.title }}</a></p> 
+      <p class="page-description"> - {{ page.description }}</p>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock content %}

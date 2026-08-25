@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}<title>{{page.title}}</title>{% endblock title %}
+
+{% block head %}
+    <meta name="description" content={{page.description}} />
+    <meta name="subject" content={{page.extra.subject}} />
+{% endblock head %}
+
+{% block content %}
+
+{{ page.content | safe }}
+
+{% endblock content %}

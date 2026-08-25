@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+{% block title %}<title>{{page.title}}</title>{% endblock title %}
+
+{% block head %}
+
+<meta name="description" content={{page.description}}/>
+<meta name="subject" content="Technology">
+
+<script type="importmap">
+{
+    "imports": {
+        "bf": "/scripts/content/nevise/1405-bf.module.js",
+
+        "preact": "/vendor/preact/preact.module.js",
+        "preact/hooks": "/vendor/preact/hooks.module.js",
+        "@preact/signals": "/vendor/preact/signals.mjs",
+        "@preact/signals-core": "/vendor/preact/signals-core.mjs",
+        "preact/compat": "/vendor/preact/compat.module.js",
+        "react": "/vendor/preact/compat.module.js",
+        "react-dom": "/vendor/preact/compat.module.js",
+        "htm": "/vendor/preact/htm.module.js",
+        "htm/preact": "/vendor/preact/htm-preact.module.js"
+    }
+}
+</script>
+
+<style>
+    #bf-interpreter {
+        background-color: #fcfcfc;
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 1rem;
+        border-radius: .5rem;
+        margin-bottom:1rem;
+    }
+
+    #bf-interpreter textarea,
+    #bf-interpreter input {
+        width: 100%;
+        box-sizing: border-box;
+        margin:0 0;
+        font-family: monospace;
+    }
+
+    #bf-interpreter #out,
+    #bf-interpreter input,
+    #bf-interpreter textarea {
+        padding: .75rem;
+
+        width: 100%;
+        border: 1px solid #ccc;
+        resize: none;
+
+        border-radius: .5rem;
+    }
+
+    #bf-interpreter #out {
+        white-space: pre-wrap;
+        color: var(--background);
+        background-color: #2a363b;
+        border-radius: 8px;
+        border:0;
+        word-break: break-word;
+    }
+
+    #bf-interpreter button {
+        border-radius: .25rem;
+        border: 1px solid #ccc;
+        padding: 8px 20px;
+        cursor: pointer;
+    }
+
+
+    #bf-interpreter button:hover,
+    #bf-interpreter input:hover,
+    #bf-interpreter textarea:hover {
+        border-color: #888;
+    }
+
+    #bf-interpreter button,
+    #bf-interpreter p {
+        font-size: small;
+    }
+
+    #bf-interpreter #title button{
+        /* color: var(--primary);
+        border-color: var(--primary) ; */
+        background-color: transparent;
+
+        padding:0 .66rem;
+                
+	    font: inherit;
+        font-size:smaller;
+        /* font-weight: bold; */
+    }
+
+    #bf-items button:nth-of-type(2n+1) { background-color: #dff3e0; }
+    #bf-items button:nth-of-type(2n+2) { background-color: #d6ece6; }
+
+    #bf-interpreter #bf-items {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        /* flex-wrap: wrap; */
+        align-items: center;
+        gap: .5rem;
+    }
+    @media (min-width: 768px) {
+        #bf-interpreter #bf-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            /* flex-wrap: wrap; */
+            align-items: center;
+            gap: .5rem;
+        }
+    }
+
+    #bf-interpreter #bf-items button { 
+
+        padding: .125rem .5rem;
+        transition: color .125s ease-in, background .125s ease-in;
+    }
+    #bf-interpreter #bf-items button:hover { 
+        color: var(--text);
+    }
+
+    pre{overflow-x: auto;}
+    ol{display:flex;flex-direction:column;gap:.25rem;}
+
+    #toc{padding-right:1rem;}
+    #toc #ulh2 li{padding:.33rem;list-style-type: decimal;}
+    /* #toc li a{color:var(--text);} */
+    #toc #ulh2{padding-right:1rem;}
+
+    #bf-interpreter #title{
+        display:flex;
+        justify-content:space-between;
+        align-self:center;
+        gap:1rem;
+    }
+
+    .copy-code-btn{
+        background-color: #888;
+        border-radius:6px;
+        border:0;
+    }
+    .copy-code-btn:hover{
+        background-color: #ccc;
+    }
+
+
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+<div id="app"></div>
+
+<script type="module">
+    import { App } from "bf";
+
+    import { render } from "preact";
+    import { html } from "htm/preact";
+
+    render(html`<${App} />`, document.getElementById("app"));
+</script>
+
+<script type="module" src="/scripts/content/nevise/1405-bf-visualizer.js"></script>
+
+<h1>دسترسی سریع</h1>
+{% if page.toc %}
+    <ul id="toc">
+    {% for h1 in page.toc %}
+        <li id="h1">
+            <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+            {% if h1.children %}
+                <ul id="ulh2">
+                    {% for h2 in h1.children %}
+                        <li id="h2">
+                            <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{{ page.content | safe }}
+
+
+<script type="module">
+    document.addEventListener('DOMContentLoaded', () => {
+  // Select all <pre> elements that contain a <code> block
+  const codeBlocks = document.querySelectorAll('pre > code');
+
+  codeBlocks.forEach((codeEl) => {
+    const preEl = codeEl.parentElement;
+
+    // Make sure the <pre> can position the button absolutely
+    preEl.style.position = 'relative';
+
+    // Create the copy button
+    const button = document.createElement('button');
+    button.className = 'copy-code-btn';
+    button.type = 'div';
+    button.textContent = 'Copy';
+
+    // Basic inline styling (feel free to move to CSS)
+    Object.assign(button.style, {
+      position: 'absolute',
+      top: '8px',
+      right: '8px',
+      padding: '4px 10px',
+      fontSize: '12px',
+    //   background: '#333',
+    //   color: '#fff',
+    //   border: 'none',
+    //   borderRadius: '4px',
+      cursor: 'pointer',
+    //   opacity: '0.8',
+    });
+
+    button.addEventListener('click', async () => {
+      const codeText = codeEl.innerText;
+
+      try {
+        // Preferred method (requires secure context: https or localhost)
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(codeText);
+        } else {
+          // Fallback for older/non-secure contexts
+          fallbackCopyTextToClipboard(codeText);
+        }
+
+        button.textContent = 'Copied!';
+        setTimeout(() => {
+          button.textContent = 'Copy';
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+        button.textContent = 'Error';
+        setTimeout(() => {
+          button.textContent = 'Copy';
+        }, 2000);
+      }
+    });
+
+    preEl.appendChild(button);
+  });
+});
+
+// Fallback copy method using a temporary textarea + execCommand
+function fallbackCopyTextToClipboard(text) {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+
+  // Avoid scrolling to bottom and keep it invisible
+  Object.assign(textArea.style, {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '2em',
+    height: '2em',
+    padding: '0',
+    border: 'none',
+    outline: 'none',
+    boxShadow: 'none',
+    background: 'transparent',
+  });
+
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    document.execCommand('copy');
+  } catch (err) {
+    console.error('Fallback: unable to copy', err);
+  }
+
+  document.body.removeChild(textArea);
+}
+</script>
+
+{% endblock content %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}<title>TTS</title>{% endblock title %}
+
+{% block head %}
+
+<meta name="description" content={{page.description}} />
+<meta name="subject" content="Technology">
+
+<script type="importmap">
+{
+    "imports": {
+        "preact": "/vendor/preact/preact.module.js",
+        "preact/hooks": "/vendor/preact/hooks.module.js",
+        "htm": "/vendor/preact/htm.module.js",
+        "htm/preact": "/vendor/preact/htm-preact.module.js"
+    }
+}
+</script>
+
+<style>
+
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+<div id="app"></div>
+<script type="module">
+    // import { App } from "/scripts/content/nevise/1405-aip.module.js";
+    import { pipeline } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1";
+
+    import { render } from "preact";
+    import { useState } from 'preact/hooks';
+    import { html } from "htm/preact";
+
+    const extractor = await pipeline('feature-extraction', 'Xenova/bge-small-en-v1.5',{});
+    // const generator = await pipeline(
+    //     "text-generation",
+    //     "HuggingFaceTB/SmolLM2-135M-Instruct",
+    // );
+
+    const App = () => {
+        const [inputText, setInputText] = useState("");
+        const [answerText, setAnswerText] = useState("");
+
+        const submitInput = async () => {
+            const texts = ['Hello world.', 'Example sentence.'];
+            const embeddings = await extractor(texts, { pooling: 'mean', normalize: true });
+            console.log(embeddings);
+
+            setAnswerText(embeddings);
+        }
+
+        return html`
+            <div>
+                <input type="text" name="" id="" />
+                <button type="submit">Answer</button>
+            </div>
+            <p>${answerText}</p>
+        `
+    };
+
+    render(html`<${App} />`, document.getElementById("app"));
+</script>
+
+{{ page.content | safe }}
+
+{% endblock content %}

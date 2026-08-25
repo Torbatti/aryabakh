@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+  {% block title %}<title>آریا بختیاری | Arya Bakh</title>{% endblock title %}
+
+  <link rel='stylesheet' href='/stylesheets/reset.css'>
+  <link rel='stylesheet' href='/stylesheets/root.css'>
+
+  {% block head %} {% endblock head %}
+
+</head>
+
+<body>
+  <div id="header">
+    <div class="box rtl">
+      <h1 class="home-link"><a href="/">آریا بختیاری</a></h1>
+    </div>
+  </div>
+
+  <div id="content" class="box rtl">
+
+    {% block content %} {% endblock content %}
+
+  </div>
+
+  <div id="footer">
+    <div class="box rtl">
+      <p>ساخته شده با عشق و <a href="https://www.getzola.org/" target="_blank" rel="noopener noreferrer">زولا</a></p>
+    </div>
+  </div>
+
+</body>
+
+</html>
