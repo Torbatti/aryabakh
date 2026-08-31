@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BF Lab — Brainfuck interpreter × WASM JIT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+<script type="importmap">
+{
+  "imports": {
+    "preact": "https://esm.sh/preact@10.23.1",
+    "preact/hooks": "https://esm.sh/preact@10.23.1/hooks",
+    "htm": "https://esm.sh/htm@3.1.1"
+  }
+}
+</script>
+<style>
+  :root {
+    /* ---- color tokens ---- */
+    --bg: #f6f7f5;
+    --surface: #ffffff;
+    --ink: #14181c;
+    --ink-muted: #4b5561;
+    --rule: #d8dee2;
+    --rule-strong: #b7c0c6;
+    --accent-interp: #3b6ea5;
+    --accent-interp-bg: #eaf1f8;
+    --accent-jit: #b8691f;
+    --accent-jit-bg: #fbeee0;
+    --ok: #2f7d4f;
+    --ok-bg: #e9f5ee;
+    --fail: #b23b3b;
+    --fail-bg: #fbeaea;
+
+    /* ---- type tokens ---- */
+    --font-display: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --font-body: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--accent-interp);
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  header.masthead {
+    padding: 48px 0 28px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 40px;
+  }
+
+  header.masthead .kicker {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin: 0 0 10px;
+  }
+
+  header.masthead h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+  }
+
+  header.masthead p {
+    max-width: 62ch;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .lede {
+    color: var(--ink-muted);
+    max-width: 68ch;
+    margin: 0 0 22px;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 28px 28px 30px;
+    margin-bottom: 40px;
+  }
+
+  .field-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    flex: 1 1 220px;
+  }
+
+  select,
+  textarea,
+  button {
+    font-family: var(--font-body);
+    font-size: 14px;
+  }
+
+  select {
+    padding: 8px 10px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--ink);
+  }
+
+  .editor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .editor-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .editor {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .editor label {
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  .editor code {
+    background: var(--rule);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-family: var(--font-display);
+    font-size: 12px;
+  }
+
+  textarea {
+    width: 100%;
+    resize: vertical;
+    padding: 12px 14px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 8px;
+    background: #fbfbfa;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  textarea:focus,
+  select:focus,
+  button:focus-visible {
+    outline: 2px solid var(--accent-interp);
+    outline-offset: 1px;
+  }
+
+  .btn {
+    appearance: none;
+    border: 1px solid var(--rule-strong);
+    background: var(--surface);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .btn:hover:not(:disabled) {
+    border-color: var(--ink-muted);
+  }
+
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: #262c32;
+  }
+
+  .banner {
+    margin: 20px 0 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .banner-ok {
+    background: var(--ok-bg);
+    color: var(--ok);
+  }
+
+  .banner-fail {
+    background: var(--fail-bg);
+    color: var(--fail);
+  }
+
+  .results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 640px) {
+    .results {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .result-col {
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+
+  .result-interpreter {
+    border-top: 3px solid var(--accent-interp);
+  }
+
+  .result-jit {
+    border-top: 3px solid var(--accent-jit);
+  }
+
+  .result-col dl {
+    margin: 0 0 14px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 12px;
+    font-size: 13px;
+  }
+
+  .result-col dt {
+    color: var(--ink-muted);
+  }
+
+  .result-col dd {
+    margin: 0;
+  }
+
+  .metric {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .result-col label {
+    display: block;
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+
+  .result-col pre {
+    margin: 0;
+    padding: 10px 12px;
+    background: #fbfbfa;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 1.6em;
+    max-height: 160px;
+    overflow: auto;
+  }
+
+  .test-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+  }
+
+  .test-suites {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .test-suite {
+    border-top: 1px solid var(--rule);
+    padding-top: 18px;
+  }
+
+  .suite-summary {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 13px;
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+
+  .suite-summary.ok {
+    background: var(--ok-bg);
+    color: var(--ok);
+  }
+
+  .suite-summary.fail {
+    background: var(--fail-bg);
+    color: var(--fail);
+  }
+
+  .test-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .test-list li {
+    display: grid;
+    grid-template-columns: 20px 1fr auto;
+    align-items: baseline;
+    gap: 10px;
+    padding: 6px 4px;
+    border-radius: 6px;
+    font-size: 13.5px;
+  }
+
+  .test-pass .test-mark {
+    color: var(--ok);
+  }
+
+  .test-fail {
+    background: var(--fail-bg);
+  }
+
+  .test-fail .test-mark {
+    color: var(--fail);
+  }
+
+  .test-ms {
+    font-family: var(--font-display);
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  .test-error {
+    grid-column: 2 / -1;
+    color: var(--fail);
+    font-family: var(--font-display);
+    font-size: 12px;
+    white-space: pre-wrap;
+  }
+
+  .muted {
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    margin: 0;
+  }
+
+  footer.colophon {
+    color: var(--ink-muted);
+    font-size: 13px;
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+  }
+
+  footer.colophon code {
+    font-family: var(--font-display);
+    background: var(--rule);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <p class="kicker">bf-lab</p>
+      <h1>Brainfuck interpreter × WASM JIT</h1>
+      <p>
+        Two engines for the same eight-instruction language: a tree-walking interpreter, and a
+        compiler that emits a real WebAssembly module for the browser's own JIT to turn into x64.
+        Run them side by side, then check their agreement with unit, integration, property, and
+        end-to-end tests.
+      </p>
+    </header>
+
+    <main>
+      <div id="runner-root"></div>
+      <div id="tester-root"></div>
+    </main>
+
+    <footer class="colophon">
+      Libraries: <code>lib-bf-interpreter.js</code>, <code>lib-bf-jit.js</code>. Components:
+      <code>component-runner.js</code>, <code>component-tester.js</code>. Built with Preact + htm,
+      no bundler — open this file over a local server (module <code>fetch</code> is blocked on
+      most browsers under a bare <code>file://</code> URL).
+    </footer>
+  </div>
+
+  <script type="module">
+    import { h, render } from 'preact';
+    import { BFRunner } from './component-runner.js';
+    import { BFTester } from './component-tester.js';
+
+    render(h(BFRunner), document.getElementById('runner-root'));
+    render(h(BFTester), document.getElementById('tester-root'));
+  </script>
+</body>
+</html>

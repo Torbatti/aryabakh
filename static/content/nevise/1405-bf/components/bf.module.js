@@ -5,11 +5,13 @@ export function App() {
     const [programItem, setProgramItem] = useState(0);
 
     const defult_program_description = "یک برنامه آماده را انتخاب کنید یا برنامه خود را وارد کنید."
-    const [programDescription, setProgramDescription] = useState(defult_program_description);
+    const [programDescription, setProgramDescription] = useState(program_items[1].description);
 
-    const [programCode, setProgramCode] = useState('');
+    const [viewMode, setViewMode] = useState(true);
+
+    const [programCode, setProgramCode] = useState(program_items[1].code);
     const [programInput, setProgramInput] = useState('');
-    const [programOutput, setProgramOutput] = useState(' ');
+    const [programOutput, setProgramOutput] = useState('');
 
     const [programCodeRow, setProgramCodeRow] = useState(4);
     const [programInputRow, setProgramInputRow] = useState(2);
@@ -19,6 +21,7 @@ export function App() {
         setProgramCode(program_items[index].code)
         setProgramDescription(program_items[index].description)
         if (program_items[index] !== "") { setProgramInput(program_items[index].input) }
+        setProgramOutput('')
 
         const input_lines = program_items[index].input.split('\n').length
         setProgramInputRow(input_lines)
@@ -31,6 +34,7 @@ export function App() {
     const handleProgramCodeChange = (e) => {
         const program_code = e.currentTarget.value
         setProgramCode(e.currentTarget.value)
+        setProgramOutput('')
 
         const program_lines = program_code.split('\n').length
         if (program_lines > 10) { setProgramCodeRow(10); }
@@ -42,6 +46,7 @@ export function App() {
         const input_lines = program_input.split('\n').length
         setProgramInput(e.currentTarget.value)
         setProgramInputRow(input_lines)
+        setProgramOutput('')
     }
 
     function brainfuck_run() {
@@ -84,7 +89,13 @@ export function App() {
 
         <div id="title">
             <h2>ترجمار</h2>
-            <button onclick=${() => brainfuck_run()}>شروع</button>
+            <div>
+                ${viewMode ?
+            html`<button class="tag" onclick=${() => setViewMode(!viewMode)}>تغیر</button>` :
+            html`<button class="sab" onclick=${() => setViewMode(!viewMode)}>ثبت</button>`
+        }       
+                <button id="ejra" onclick=${() => brainfuck_run()}>اجرا</button>
+            </div>
         </div>
 
         <p id="des" class="rtl">${programDescription}</p>
@@ -99,20 +110,55 @@ export function App() {
 
 
         <p>برنامه :</p>
-        <textarea id="prog" class="ltr" rows=${programCodeRow} onInput=${(e) => handleProgramCodeChange(e)} value=${programCode}></textarea>
+        ${viewMode ?
+            html`
+            ` :
+            html`
+            <textarea id="prog" class="ltr" rows=${programCodeRow} onInput=${(e) => handleProgramCodeChange(e)} value=${programCode}></textarea>
+        `}
+        
+            ${programCode.length > 1 && viewMode == true ? html`    
+        <div id="cube-grid">
+            ${[...programCode].map((item, i) => {
+                switch (item) {
+                    case "+":
+                    case "-":
+                    case "<":
+                    case ">":
+                    case "[":
+                    case "]":
+                    case ".":
+                    case ",":
+                        return html`
+                    <button key=${i}>
+                        ${item}
+                    </button>`
+                        break;
+
+                    default:
+                        break;
+                }
+
+            }
+            )}
+    </div>
+        `: html``}
+
 
         <p>ورودی :</p>
         <textarea id="inp" class="ltr" rows=${programInputRow} onInput=${(e) => handleProgramInputChange(e)} value=${programInput}></textarea>
 
-        <p>خروجی :</p>
-        <p id="out" class="ltr">${programOutput}</p>
+    ${programOutput != ""
+        ? html`<p>خروجی :</p><p id="out" class="ltr">${programOutput}</p>` 
+        : html``
+    }
     </div>
     `;
 }
 // 
 // 
 // 
-const hello_world_bf_description = `ساده ترین برنامه در برینفورک ، سلام به دنیا.`
+const hello_world_bf_description = `ساده ترین برنامه ترجمار برینفورک ، سلام به دنیا.`
 const hello_world_bf_code = `>>+<--[[<++>->-->+++>+<<<]-->++++]<<.<<-.<<..+++.>.<<-.>.+++.------.>>-.<+.>>.`
 
 // 
@@ -310,14 +356,14 @@ http://www.hevanet.com/cristofd/brainfuck/]`
 
 
 const program_items = [
-    { name: 'bfi.bf', description: bfi_bf_description, code: bfi_bf_code, input: bfi_bf_input },
-    { name: 'hello_world.bf', description: hello_world_bf_description, code: hello_world_bf_code, input: "" },
-    { name: 'e.bf', description: e_bf_description, code: e_bf_code, input: "" },
     { name: 'squares.bf', description: squares_bf_description, code: squares_bf_code, input: "" },
+    { name: 'hello_world.bf', description: hello_world_bf_description, code: hello_world_bf_code, input: "" },
+    { name: 'head.bf', description: head_bf_description, code: head_bf_code, input: "" },
     { name: 'fib.bf', description: fib_bf_description, code: fib_bf_code, input: "" },
     { name: 'factorial2.bf', description: factorial2_bf_description, code: factorial2_bf_code, input: "" },
     { name: 'random.bf', description: random_bf_description, code: random_bf_code, input: "" },
     { name: 'golden.bf', description: golden_bf_description, code: golden_bf_code, input: "" },
-    { name: 'head.bf', description: head_bf_description, code: head_bf_code, input: "" },
     { name: 'wc.bf', description: wc_bf_description, code: wc_bf_code, input: "" },
+    { name: 'bfi.bf', description: bfi_bf_description, code: bfi_bf_code, input: bfi_bf_input },
+    { name: 'e.bf', description: e_bf_description, code: e_bf_code, input: "" },
 ];
